@@ -9,9 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,7 +38,7 @@ public class CarroController {
 	@Autowired
 	private CarroService carroService;
 	
-	// Lista todos os Carros 
+	// Lista todos os registros
 	@GetMapping
 	public List<Carro> listar(){
 		return carroRepository.findAll();
@@ -48,11 +50,12 @@ public class CarroController {
 		
 		Optional<Carro> carro = carroRepository.findById(carroId);
 		
+		// essa condição verifica se tem um registro 
 		if(carro.isPresent()) {
 			CarroModel carroModel = toModel(carro.get());
 			return ResponseEntity.ok(carroModel);
 		}
-		return ResponseEntity.ok().build();
+		return ResponseEntity.notFound().build();
 	}
 	
 	// Salva um registro passando pelo service
@@ -64,6 +67,34 @@ public class CarroController {
 		return toModel(carroService.salvar(carro));
 	}
 	
+	// Edita um registro
+	@PutMapping("/{carroId}")
+	public ResponseEntity<Carro> editar(@Valid @PathVariable Long carroId, @RequestBody Carro carro ){
+		
+		// Essa condição verifica se tem algum registro
+		if(!carroRepository.existsById(carroId)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		carro.setId(carroId);
+		carro = carroService.salvar(carro);
+		
+		return ResponseEntity.ok(carro);
+	}
+	
+	// Deleta um registro
+	@DeleteMapping("/{carroId}")
+	public ResponseEntity<Void> deletar(@PathVariable Long carroId){
+		
+		if(!carroRepository.existsById(carroId)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		carroService.deletar(carroId);
+		
+		return ResponseEntity.noContent().build();
+		
+	}
 	
 	// Metodos para reutulizar o modelmapper
 	private CarroModel toModel(Carro carro) {

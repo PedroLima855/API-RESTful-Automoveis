@@ -7,5 +7,6 @@ import com.api.automoveis.domain.model.Carro;
 
 @Repository
 public interface CarroRepository extends JpaRepository<Carro, Long>{
+	
 
 }
