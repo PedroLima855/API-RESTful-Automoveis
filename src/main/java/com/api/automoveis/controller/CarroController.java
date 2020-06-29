@@ -93,7 +93,12 @@ public class CarroController {
 		carroService.deletar(carroId);
 		
 		return ResponseEntity.noContent().build();
-		
+	}
+	
+	// faz uma pesquisa atravez do modelo
+	@GetMapping("/pesquisa/{modelo}")
+	public List<Carro> pesquisarCarro(@PathVariable String modelo ){
+		return carroService.pesquisarModelo(modelo);
 	}
 	
 	// Metodos para reutulizar o modelmapper

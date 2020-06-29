@@ -1,5 +1,7 @@
 package com.api.automoveis.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class CarroService {
 	
 	public void deletar(Long carroId) {
 		carroRepository.deleteById(carroId);
+	}
+	
+	public List<Carro> pesquisarModelo (String modelo) {
+		return carroRepository.findByModeloStartingWith(modelo);
 	}
 	
 }

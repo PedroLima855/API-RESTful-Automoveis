@@ -1,6 +1,4 @@
-create table carro(
-
-	create table carro (
+create table carro (
 	
 	id SERIAL PRIMARY KEY,
 	cor varchar(60) NOT NULL,
@@ -9,9 +7,4 @@ create table carro(
 	ano integer NOT NULL
 	
 );
-
-	
-
-	
-
 
