@@ -29,15 +29,17 @@ import com.api.automoveis.service.CarroService;
 @RequestMapping("/carros")
 public class CarroController {
 	
-	@Autowired
+
 	private ModelMapper modelMapper;
-	
-	@Autowired
 	private CarroRepository carroRepository;
-	
-	@Autowired
 	private CarroService carroService;
-	
+
+	public CarroController(ModelMapper modelMapper, CarroRepository carroRepository, CarroService carroService) {
+		this.modelMapper = modelMapper;
+		this.carroRepository = carroRepository;
+		this.carroService = carroService;
+	}
+
 	// Lista todos os registros
 	@GetMapping
 	public List<Carro> listar(){
