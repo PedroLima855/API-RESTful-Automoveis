@@ -1,4 +1,4 @@
-package com.api.automoveis.representation.model;
+package com.api.automoveis.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

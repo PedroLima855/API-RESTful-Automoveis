@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.automoveis.domain.model.Carro;
 import com.api.automoveis.repository.CarroRepository;
-import com.api.automoveis.representation.model.CarroInput;
-import com.api.automoveis.representation.model.CarroModel;
+import com.api.automoveis.dto.CarroInput;
+import com.api.automoveis.dto.CarroModel;
 import com.api.automoveis.service.CarroService;
 
 @RestController
@@ -42,8 +41,9 @@ public class CarroController {
 
 	// Lista todos os registros
 	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
 	public List<Carro> listar(){
-		return carroRepository.findAll();
+		return carroService.listarCarros();
 	}
 
 	// faz uma busca atravez do Id e retorna o representation model
