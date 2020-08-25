@@ -47,17 +47,9 @@ public class CarroController {
 	}
 
 	// faz uma busca atravez do Id e retorna o representation model
-	@GetMapping("/{carroId}")
-	public ResponseEntity<CarroModel> buscar(@PathVariable Long carroId){
-		
-		Optional<Carro> carro = carroRepository.findById(carroId);
-		
-		// essa condição verifica se tem um registro 
-		if(carro.isPresent()) {
-			CarroModel carroModel = toModel(carro.get());
-			return ResponseEntity.ok(carroModel);
-		}
-		return ResponseEntity.notFound().build();
+	@GetMapping("/{id}")
+	public ResponseEntity<CarroModel> buscar(@PathVariable Long id){
+		return carroService.buscarId(id);
 	}
 	
 	// Salva um registro passando pelo service
