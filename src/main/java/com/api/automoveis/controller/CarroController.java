@@ -1,28 +1,17 @@
 package com.api.automoveis.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import com.api.automoveis.domain.model.Carro;
+import com.api.automoveis.dto.CarroInput;
+import com.api.automoveis.dto.CarroModel;
+import com.api.automoveis.repository.CarroRepository;
+import com.api.automoveis.service.CarroService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.api.automoveis.domain.model.Carro;
-import com.api.automoveis.repository.CarroRepository;
-import com.api.automoveis.dto.CarroInput;
-import com.api.automoveis.dto.CarroModel;
-import com.api.automoveis.service.CarroService;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/carros")
@@ -55,10 +44,8 @@ public class CarroController {
 	// Salva um registro passando pelo service
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CarroModel salvar(@Valid @RequestBody CarroInput carroInput) {
-		Carro carro = toEntity(carroInput);
-		
-		return toModel(carroService.salvar(carro));
+	public ResponseEntity<CarroModel> salvar(@Valid @RequestBody Carro carro) {
+		return carroService.salvar(carro);
 	}
 	
 	// Edita um registro
@@ -71,7 +58,6 @@ public class CarroController {
 		}
 		
 		carro.setId(carroId);
-		carro = carroService.salvar(carro);
 		
 		return ResponseEntity.ok(carro);
 	}

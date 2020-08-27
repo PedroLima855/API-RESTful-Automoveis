@@ -1,6 +1,7 @@
 package com.api.automoveis.service;
 
 import com.api.automoveis.domain.model.Carro;
+import com.api.automoveis.dto.CarroInput;
 import com.api.automoveis.dto.CarroModel;
 import com.api.automoveis.repository.CarroRepository;
 import org.modelmapper.ModelMapper;
@@ -44,8 +45,14 @@ public class CarroService {
 
 	}
 
-	public Carro salvar(Carro carro) {
-		return carroRepository.save(carro);
+	// salva um registro
+	public ResponseEntity<CarroModel> salvar(Carro carro) {
+
+		Carro carroSalvo = carroRepository.save(carro);
+		CarroModel carroModel = toDTO(carroSalvo);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(carroModel);
+
 	}
 	
 	public void deletar(Long carroId) {
@@ -59,6 +66,10 @@ public class CarroService {
 	// Metodo para mapear DTO
 	private CarroModel toDTO(Carro carro) {
 		return modelMapper.map(carro, CarroModel.class);
+	}
+
+	private Carro toEntity(CarroInput carroInput) {
+		return modelMapper.map(carroInput, Carro.class);
 	}
 	
 }
