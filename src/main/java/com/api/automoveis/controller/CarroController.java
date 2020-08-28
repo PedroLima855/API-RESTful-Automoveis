@@ -56,7 +56,6 @@ public class CarroController {
 		if(!carroRepository.existsById(carroId)) {
 			return ResponseEntity.notFound().build();
 		}
-		
 		carro.setId(carroId);
 		
 		return ResponseEntity.ok(carro);

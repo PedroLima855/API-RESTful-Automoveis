@@ -68,8 +68,5 @@ public class CarroService {
 		return modelMapper.map(carro, CarroModel.class);
 	}
 
-	private Carro toEntity(CarroInput carroInput) {
-		return modelMapper.map(carroInput, Carro.class);
-	}
 	
 }
