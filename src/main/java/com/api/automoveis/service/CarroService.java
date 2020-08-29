@@ -1,7 +1,6 @@
 package com.api.automoveis.service;
 
 import com.api.automoveis.domain.model.Carro;
-import com.api.automoveis.dto.CarroInput;
 import com.api.automoveis.dto.CarroModel;
 import com.api.automoveis.repository.CarroRepository;
 import org.modelmapper.ModelMapper;
