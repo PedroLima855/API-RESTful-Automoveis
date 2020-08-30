@@ -5,6 +5,8 @@ import com.api.automoveis.dto.CarroInput;
 import com.api.automoveis.dto.CarroModel;
 import com.api.automoveis.repository.CarroRepository;
 import com.api.automoveis.service.CarroService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carros")
+@RequestMapping("/api/carros")
+@Api("Automoveis API REST")
+@CrossOrigin(origins = "*")
 public class CarroController {
 	
 
@@ -30,6 +34,7 @@ public class CarroController {
 
 	// Lista todos os registros
 	@GetMapping
+	@ApiOperation(value = "Lista todos os registros")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Carro> listar(){
 		return carroService.listarCarros();
@@ -37,12 +42,21 @@ public class CarroController {
 
 	// faz uma busca atravez do Id e retorna o representation model
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Lista os registros por id")
 	public ResponseEntity<CarroModel> buscar(@PathVariable Long id){
 		return carroService.buscarId(id);
+	}
+
+	// faz uma pesquisa atravez do modelo
+	@GetMapping("/pesquisa/{modelo}")
+	@ApiOperation(value = "Pesquisa um registro atravez do modelo")
+	public List<Carro> pesquisarCarro(@PathVariable String modelo ){
+		return carroService.pesquisarModelo(modelo);
 	}
 	
 	// Salva um registro passando pelo service
 	@PostMapping
+	@ApiOperation(value = "Salva um registro")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<CarroModel> salvar(@Valid @RequestBody Carro carro) {
 		return carroService.salvar(carro);
@@ -50,6 +64,7 @@ public class CarroController {
 	
 	// Edita um registro
 	@PutMapping("/{carroId}")
+	@ApiOperation(value = "Edita um registro")
 	public ResponseEntity<Carro> editar(@Valid @PathVariable Long carroId, @RequestBody Carro carro ){
 		
 		// Essa condição verifica se tem algum registro
@@ -63,6 +78,7 @@ public class CarroController {
 	
 	// Deleta um registro
 	@DeleteMapping("/{carroId}")
+	@ApiOperation(value = "Deleta um registro")
 	public ResponseEntity<Void> deletar(@PathVariable Long carroId){
 		
 		if(!carroRepository.existsById(carroId)) {
@@ -72,12 +88,6 @@ public class CarroController {
 		carroService.deletar(carroId);
 		
 		return ResponseEntity.noContent().build();
-	}
-	
-	// faz uma pesquisa atravez do modelo
-	@GetMapping("/pesquisa/{modelo}")
-	public List<Carro> pesquisarCarro(@PathVariable String modelo ){
-		return carroService.pesquisarModelo(modelo);
 	}
 	
 	// Metodos para reutulizar o modelmapper
